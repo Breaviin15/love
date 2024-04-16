@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D1N Only!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fddfdf; /* Romantic pink background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative; /* Add this line */
+        }
+        .container {
+            max-width: 90%;
+            width: 500px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            position: relative; /* Add this line */
+            z-index: 1; /* Add this line */
+        }
+        h1 {
+            color: #c34b4b; /* Deep red */
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #ff3333; /* Light red */
+        }
+        button {
+            background-color: #ff6666; /* Light red */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #ff3333; /* Light red */
+        }
+        #messageContainer {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffc2b3; /* Light pink */
+            border-radius: 10px;
+        }
+        #message {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        #heart1,
+        #heart2 {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+        }
+        #heart1 {
+            top: -20px;
+            left: -20px;
+        }
+        #heart2 {
+            top: -20px;
+            right: -20px;
+        }
+        .heart-background {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: transparent;
+            pointer-events: none; /* This prevents the hearts from blocking user interactions */
+            z-index: 0; /* Ensure hearts are behind other content */
+        }
+        .heart-background:nth-child(3) {
+            top: 20%;
+            left: 10%;
+        }
+        .heart-background:nth-child(4) {
+            top: 40%;
+            right: 10%;
+        }
+        .heart-background:nth-child(5) {
+            top: 60%;
+            left: 20%;
+        }
+        .heart-background:nth-child(6) {
+            top: 80%;
+            right: 20%;
+        }
+        .heart-background svg {
+            width: 100%;
+            height: 100%;
+        }
+        #back {
+            color: #666;
+            margin-top: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+        #back:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2D1N Only!</h1>
+        <div id="inputSection">
+            <p>Please enter your name ;)</p>
+            <input type="text" id="nameInput">
+            <button onclick="checkName()">That's Me</button>
+        </div>
+        <div id="messageContainer">
+            <div id="heart1">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+                </svg>
+            </div>
+            <div id="heart2">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+                </svg>
+            </div>
+            <div id="message">
+                <p id="messageContent"></p>
+            </div>
+        </div>
+        <p id="back" onclick="goBack()">Go back</p>
+    </div>
+
+    <!-- Additional heart shapes for background -->
+    <div class="heart-background">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+        </svg>
+    </div>
+    <div class="heart-background">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+        </svg>
+    </div>
+    <div class="heart-background">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+        </svg>
+    </div>
+    <div class="heart-background">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+        </svg>
+    </div>
+    <div class="heart-background">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+        </svg>
+    </div>
+    <div class="heart-background">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+        </svg>
+    </div>
+    <div class="heart-background">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.0358L10.94 20.4158C5.97 16.7558 2 13.3658 2 9.16583C2 5.67583 4.42 3.25583 7.5 3.25583C9.06 3.25583 10.57 4.09583 12 5.47583C13.43 4.09583 14.94 3.25583 16.5 3.25583C19.58 3.25583 22 5.67583 22 9.16583C22 13.3658 18.03 16.7558 13.06 20.4158L12 21.0358Z" fill="#c34b4b"/>
+        </svg>
+    </div>
+    <!-- End of additional heart shapes -->
+
+    <script>
+        function checkName() {
+            var name = document.getElementById("nameInput").value.toLowerCase(); // Convert input to lowercase for case-insensitive comparison
+            if (name === "davinya") { 
+                generateMessage();
+            } else {
+                alert("Sorry, this is meant for only one person and that person is not you. Have a nice day."); // Notify user if the name is incorrect
+            }
+        }
+
+        function generateMessage() {
+            //var name = document.getElementById("nameInput").value;
+            var message = "<p>Dear " + "Davinya" + ",</p>";
+            message += "<p>I just wanted to take a moment to tell you how special you are to me. You're the most incredible person I've ever met. Most importantly, you made my life meaningful more than ever and I feel extremely lucky to have you in my life.</p>";
+            message += "<p>You are my first love and I really want it to be my last too. Even when we are not talking, you're always on my mind and in my heart permenantly. I think of you and kiss your picture before I fall asleep every night.</p>";
+            message += "<p>I miss you more than any words can express, and I can't wait until we can meet again. Until then, please know that I love you more than anything in this world. Always and forever.</p>";
+            message += "<p> <br> </p>";
+            message += "<p>Yours Always,</p>";
+            message += "<p>Breaviin</p>";
+            document.getElementById("inputSection").style.display = "none";
+            document.getElementById("messageContent").innerHTML = message;
+            document.getElementById("messageContainer").style.display = "block";
+        }
+
+        function goBack() {
+            document.getElementById("inputSection").style.display = "block";
+            document.getElementById("messageContainer").style.display = "none";
+        }
+    </script>
+</body>
+</html>
